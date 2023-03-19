@@ -1,4 +1,4 @@
-import task from "../assets/images/task.svg";
+import React from 'react'
 
 const Task = (props) => {
   return (

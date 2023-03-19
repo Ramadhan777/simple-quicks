@@ -9,7 +9,6 @@ import Dropdown from "./Dropdown";
 
 const Task = () => {
   const dispatch = useDispatch();
-
   const [loading, setLoading] = React.useState(true);
   const [openTask, setOpenTask] = React.useState([]);
   const [dataTaskAPI, setDataTaskAPI] = React.useState([]);
@@ -21,7 +20,7 @@ const Task = () => {
         {
           ...res.data[0],
           desc: "Tiga data awal ini adalah data yang saya ambil dari API yang telah disediakan, tetapi untuk sisa dari task yang akan dibuat saya menggunakan redux untuk menyimpan datanya.",
-          date: new Date("03-25-2023"),
+          date: new Date("2023-03-25"),
           bookmark: [],
         },
         {
@@ -58,8 +57,8 @@ const Task = () => {
       addTaskList(
         taskList.map((task) => {
           if (task.id === id) {
-            if(!task.bookmark.includes(bookmarkId)){
-              if(typeof bookmarkId === 'number'){
+            if(typeof bookmarkId === 'number'){
+              if(!task.bookmark.includes(bookmarkId)){
                 return {
                   id,
                   title,
@@ -75,7 +74,7 @@ const Task = () => {
                   desc,
                   date,
                   completed,
-                  bookmark: [...task.bookmark],
+                  bookmark: task.bookmark.map(bookmark => bookmark.id !== bookmarkId),
                 }
               }
             } else {
@@ -109,8 +108,8 @@ const Task = () => {
       // eslint-disable-next-line array-callback-return
       dataTaskAPI.map((task) => {
         if (task.id === id) {
+          if(typeof bookmarkId === 'number'){
           if(!task.bookmark.includes(bookmarkId)){
-            if(typeof bookmarkId === 'number'){
               return {
                 id,
               title,
@@ -119,6 +118,15 @@ const Task = () => {
               completed,
               bookmark: [...task.bookmark, bookmarkId],
             };
+          } else {
+            return {
+              id,
+              title,
+              desc,
+              date,
+              completed,
+              bookmark: task.bookmark.map(bookmark => bookmark.id !== bookmarkId )
+            }
           }
           } else {
             return {
@@ -146,7 +154,7 @@ const Task = () => {
 
   return (
     <>
-      <div className="w-[50%] h-[450px] bg-white rounded-md text-black">
+      <div className="w-[100%] sm:w-[70%] xl:w-[50%] h-[450px] bg-white rounded-md text-black">
         <div className="flex items-center px-4 mt-3 className='text-sm' ">
           <div className="flex flex-grow relative">
             <Dropdown />
@@ -158,7 +166,7 @@ const Task = () => {
           </div>
         </div>
 
-        <div className="w-full h-[400px] flex text-black gap-2 px-5 pb-3 overflow-y-auto">
+        <div className="w-full h-[400px] flex text-black gap-2 pb-3 overflow-y-auto px-4">
           {loading ? (
             <Loading desc="Loading Task List ..." />
           ) : (
@@ -191,7 +199,7 @@ const Task = () => {
                   key={i}
                   openTask={openTask}
                   setOpenTask={setOpenTask}
-                  dayLeft={task.date ? task.date.getDate() - new Date().getDate() : 0}
+                  dayLeft={task.date ? new Date(task.date).getDate() - new Date().getDate() : 0}
                   deleteTask={deleteTaskState}
                   editTask={editTaskState}
                 />

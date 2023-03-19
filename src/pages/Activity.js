@@ -15,7 +15,7 @@ const Activity = () => {
 
   return (
     <div className="h-screen w-screen bg-[#262626] flex justify-end">
-      <div className="w-[85%] text-white h-full border-l-[1px] border-white">
+      <div className="w-full md:w-[85%] text-white h-full md:border-l-[1px] border-white">
         <div className="bg-[#4F4F4F] h-[60px] flex items-center px-7">
           <label for="search" className="hover:cursor-pointer">
             <AiOutlineSearch className="text-2xl" />
@@ -23,7 +23,7 @@ const Activity = () => {
           <input name="search" id="search" type="text" className="w-full bg-[#4F4F4F] focus:outline-none ml-2" />
         </div>
 
-        <div className="h-[570px] flex justify-end items-end pr-7 gap-5">
+        <div className="h-[570px] flex justify-end items-end px-7  gap-5">
           {action === "active" ? (
             <>
               <Button desc="Task" image={task} setAction={setAction} purposeAction="task" />

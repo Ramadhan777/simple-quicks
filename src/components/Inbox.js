@@ -114,6 +114,10 @@ const Inbox = ({ setAction }) => {
     setGroupMessages(groupMessages.filter((message) => message.id !== id));
   };
 
+  const deleteMessagePrivate = (id) => {
+    setPrivateMessages(privateMessages.filter((message) => message.id !== id));
+  };
+
   const editMessageGroup = (e, id) => {
     if (e.key === "Enter") {
       setGroupMessages(
@@ -175,13 +179,13 @@ const Inbox = ({ setAction }) => {
   return (
     <>
       {inboxState === "" && (
-        <div className="w-[50%] h-[450px] bg-white rounded-md">
+        <div className="w-[100%] sm:w-[70%] xl:w-[50%] h-[450px] bg-white rounded-md">
           <div className="flex items-center px-4 mt-3 relative">
             <input type="text" className="w-full border-[1px] border-black focus:outline-none ml-2 text-black text-sm pl-10 pr-14 py-1" placeholder="Search" />
             <AiOutlineSearch className="text-black text-sm text-2xl absolute right-14" />
           </div>
 
-          <div className="w-full h-[400px] mt-5 flex text-black gap-2 px-4">
+          <div className="w-full h-[380px] mt-5 flex text-black gap-2 px-4 overflow-y-auto">
             {loading ? (
               <Loading desc="Loading Chats ..." />
             ) : (
@@ -216,7 +220,7 @@ const Inbox = ({ setAction }) => {
 
       {inboxState === "group" && (
         <>
-          <div className="w-[50%] h-[450px] bg-white rounded-md ">
+          <div className="w-[100%] sm:w-[70%] xl:w-[50%]  h-[450px] bg-white rounded-md ">
             <div className="flex items-center px-5 mt-3 pb-3 relative text-black gap-4 border-b-[1px] border-[#BDBDBD]">
               <div className="hover:cursor-pointer">
                 <AiOutlineArrowLeft className="text-xl" onClick={() => setInboxState("")} />
@@ -248,7 +252,7 @@ const Inbox = ({ setAction }) => {
                     <div key={i} className="w-full flex flex-col items-end">
                       <div className="text-[#9B51E0] text-sm font-bold">{message.sender}</div>
                       {message.reply && (
-                        <div className="w-[400px] text-sm p-2 bg-[#F2F2F2] rounded my-1 border-[1px] text-black">
+                        <div className="w-[250px] sm:w-[400px] text-sm p-2 bg-[#F2F2F2] rounded my-1 border-[1px] text-black">
                           <div className="text-sm">{message.reply}</div>
                         </div>
                       )}
@@ -350,7 +354,7 @@ const Inbox = ({ setAction }) => {
       )}
 
       {inboxState === "private" && (
-        <div className="w-[50%] h-[450px] bg-white rounded-md ">
+        <div className="w-[100%] sm:w-[70%] xl:w-[50%]  h-[450px] bg-white rounded-md ">
           <div className="flex items-center px-5 mt-3 pb-3 relative text-black gap-4 border-b-[1px] border-[#BDBDBD]">
             <div className="hover:cursor-pointer">
               <AiOutlineArrowLeft className="text-xl" onClick={() => setInboxState("")} />
@@ -381,7 +385,7 @@ const Inbox = ({ setAction }) => {
                   <div key={i} className="w-full flex flex-col items-end">
                     <div className="text-[#9B51E0] text-sm font-bold">{message.sender}</div>
                     {message.reply && (
-                        <div className="w-[300px] text-sm p-2 bg-[#F2F2F2] rounded my-1 border-[1px] text-black">
+                        <div className="w-[250px] sm:w-[300px] text-sm p-2 bg-[#F2F2F2] rounded my-1 border-[1px] text-black">
                           <div className="text-sm">{message.reply}</div>
                         </div>
                       )}
@@ -392,9 +396,9 @@ const Inbox = ({ setAction }) => {
                           <div onClick={() => setGroupMessageOnEdit(message.id)} className="border-b-[1px] border-[#BDBDBD] px-2 py-1 text-[#2F80ED] hover:cursor-pointer">
                             Edit
                           </div>
-                          <div onClick={() => deleteMessage(message.id)} className="px-2 py-1 text-[#EB5757] hover:cursor-pointer">
-                            Delete
-                          </div>
+                          <div onClick={() => deleteMessagePrivate(message.id)} className="px-2 py-1 border-b-[1px] border-[#BDBDBD] text-[#EB5757] hover:cursor-pointer">
+                              Delete
+                            </div>
                           <div className="border-b-[1px] border-[#BDBDBD] px-2 py-1 text-[#2F80ED] hover:cursor-pointer">Share</div>
                           <div onClick={() => replyingMessage(message.sender, message.message)} className="px-2 py-1 text-[#2F80ED] hover:cursor-pointer">Reply</div>
                         </div>
@@ -429,9 +433,9 @@ const Inbox = ({ setAction }) => {
                           <div onClick={() => setGroupMessageOnEdit(message.id)} className="border-b-[1px] border-[#BDBDBD] px-2 py-1 text-[#2F80ED] hover:cursor-pointer">
                             Edit
                           </div>
-                          <div onClick={() => deleteMessage(message.id)} className="px-2 py-1 text-[#EB5757] hover:cursor-pointer">
-                            Delete
-                          </div>
+                          <div onClick={() => deleteMessagePrivate(message.id)} className="px-2 py-1 border-b-[1px] border-[#BDBDBD] text-[#EB5757] hover:cursor-pointer">
+                              Delete
+                            </div>
                           <div className="border-b-[1px] border-[#BDBDBD] px-2 py-1 text-[#2F80ED] hover:cursor-pointer">Share</div>
                           <div onClick={() => replyingMessage(message.sender, message.message)} className="px-2 py-1 text-[#2F80ED] hover:cursor-pointer">Reply</div>
                         </div>

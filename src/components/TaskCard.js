@@ -83,23 +83,28 @@ const TaskCard = ({ id, date, title, completed, bookmark, desc, openTask, setOpe
 
   return (
     <div className="border-b-[1px] border-[#828282] py-3">
-      <div className="flex gap-3 items-center">
+      <div className="flex flex-col min-[420px]:flex-row gap-3 min-[420px]:items-center">
+        <div className='flex gap-3'>
+
         <div>
           {completed ? (
             <img src={checkedBox} onClick={() => title && editTask(id, desc, date, false, title, bookmark)} alt="checkBox" className="hover:cursor-pointer" />
-          ) : (
+            ) : (
             <img src={checkBox} onClick={() => title && editTask(id, desc, date, true, title, bookmark)} alt="checkBox" className="hover:cursor-pointer" />
           )}
         </div>
         {completed ? (
-          <s className="text-sm pl-2 font-bold text-[#828282] w-[275px]">{title}</s>
+          <s className="text-sm pl-2 font-bold text-[#828282] min-[425px]:w-[145px] sm:w-[150px] lg:w-[275px]">{title}</s>
         ) : title ? (
-          <div className="text-sm pl-2 font-bold text-[#4F4F4F] w-[275px]">{title}</div>
+          <div className="text-sm pl-2 font-bold text-[#4F4F4F] min-[425px]:w-[145px] sm:w-[150px] lg:w-[275px]">{title}</div>
         ) : (
-          <input onKeyPress={editTitleTaskState} className="text-sm pl-2 py-1  text-[#4F4F4F] w-[275px] border-2 rounded focus:outline-none" placeholder="Type Task Title" />
+          <input onKeyPress={editTitleTaskState} className="text-sm pl-2 py-1  text-[#4F4F4F] min-[425px]:w-[145px] sm:w-[150px] lg:w-[275px] border-2 rounded focus:outline-none" placeholder="Type Task Title" />
         )}
-        <div className="text-sm text-[#EB5757] w-[78px]">{dayLeft >= 1 ? `${`${dayLeft} ${dayLeft === 1 ? "Day" : "Days"} Left`}` : null}</div>
-        <div className="text-sm w-[65px]">{date ? date.toLocaleDateString("id-ID") : null}</div>
+            </div>
+        <div className='flex gap-3'>
+
+        <div className="hidden sm:block text-sm text-[#EB5757] w-[78px]">{dayLeft >= 1 ? `${`${dayLeft} ${dayLeft === 1 ? "Day" : "Days"} Left`}` : null}</div>
+        <div className="text-sm w-[65px]">{date ? new Date(date).toLocaleDateString("id-ID") : null}</div>
         {openTask.includes(id) ? <BiChevronUp onClick={() => taskOpen(id)} className="hover:cursor-pointer" /> : <BiChevronDown onClick={() => taskOpen(id)} className="hover:cursor-pointer" />}
         <div className="group relative">
           <div className="mt-[-10px] text-lg text-[#828282]  hover:cursor-default">...</div>
@@ -108,22 +113,24 @@ const TaskCard = ({ id, date, title, completed, bookmark, desc, openTask, setOpe
             <div className="px-2 py-1 text-[#EB5757] hover:cursor-pointer">Delete</div>
           </div>
         </div>
+        </div>
       </div>
 
       {openTask.includes(id) && (
-        <div className="flex flex-col gap-3 ml-6 mt-2">
+        <div className="flex flex-col gap-3 ml-2 sm:ml-6 mt-2">
           <div className="flex items-center gap-3 ml-2">
             <label for="date">{date ? <img src={scheduleColor} className="w-5 hover:cursor-pointer" alt="schedule" /> : <img src={schedule} className="w-5 hover:cursor-pointer" alt="schedule" />}</label>
             <div>
               <input
                 defaultValue={
                   date
-                    ? `${date.getYear() + 1900}-${date.getMonth().toString().length === 1 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`}-${
-                        date.getDate().toString().length === 1 ? `0${date.getDate()}` : `${date.getDate()}`
+                    ? `${new Date(date).getYear() + 1900}-${new Date(date).getMonth().toString().length === 1 ? `0${new Date(date).getMonth() + 1}` : `${new Date(date).getMonth() + 1}`}-${
+                        new Date(date).getDate().toString().length === 1 ? `0${new Date(date).getDate()}` : `${new Date(date).getDate()}`
                       }`
                     : null
                 }
-                onChange={(e) => editTask(id, desc, new Date(e.target.value), completed, title, bookmark)}
+                onChange={(e) => {editTask(id, desc, new Date(e.target.value), completed, title, bookmark)
+               }}
                 type="date"
                 name="date"
                 id="date"
@@ -137,11 +144,11 @@ const TaskCard = ({ id, date, title, completed, bookmark, desc, openTask, setOpe
 
             {onEdit ? (
               <form>
-                <textarea onKeyPress={submitEditTask} defaultValue={desc} className="text-sm pl-2 py-1 ml-1 w-[450px] h-[40px] border-[1px] border-[#828282] rounded" type="text" />
+                <textarea onKeyPress={submitEditTask} defaultValue={desc} className="text-sm pl-2 py-1 ml-1 w-[300px] sm:w-[450px] h-[40px] border-[1px] border-[#828282] rounded" type="text" />
                 <button type="submit"></button>
               </form>
             ) : (
-              <div className="text-sm pl-1 w-[450px]">{desc ? desc : "No description"}</div>
+              <div className="text-sm pl-1 w-[300px] sm:w-[450px]">{desc ? desc : "No description"}</div>
             )}
           </div>
 
@@ -153,7 +160,7 @@ const TaskCard = ({ id, date, title, completed, bookmark, desc, openTask, setOpe
               }
             </div>
             {onBookmark && (
-              <div className="bg-white border-[1px] border-[#828282] p-2 flex flex-col gap-2 rounded w-[230px] absolute top-[30px] z-20">
+              <div className="bg-white border-[1px] border-[#828282] p-2 flex flex-col gap-2 rounded  w-[230px] absolute top-[30px] z-20">
                 {dataBookmark.map((data, i) => (
                   <div
                     onClick={() => editTask(id, desc, date, completed, title, data.id)}
